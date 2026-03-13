@@ -412,27 +412,24 @@
 
 <!-- Salesforce Embedded Chat -->
 <script type='text/javascript'>
-  window.embeddedservice_bootstrap = window.embeddedservice_bootstrap || {};
-  function initEmbeddedMessaging() {
-    try {
-      embeddedservice_bootstrap.settings.language = 'en_US';
-      embeddedservice_bootstrap.settings.displayHelpButton = true;  // Show default chat button
-      // Optional for inline embed: add displayMode = 'inline'; and targetElement = document.getElementById('chat-container');
-      
-      embeddedservice_bootstrap.init(
-        '00DgL00000MV1Pl',  // Org ID
-        'Regular_Channel',   // Deployment API name
-        'https://orgfarm-945d2efc92-dev-ed.develop.my.site.com/ESWRegularChannel1773408733000',  // Site endpoint
-        {
-          scrt2URL: 'https://orgfarm-945d2efc92-dev-ed.develop.my.salesforce-scrt.com'
-        }
-      );
-    } catch (err) {
-      console.error('Error loading Embedded Messaging: ', err);
-    }
-  }
+	function initEmbeddedMessaging() {
+		try {
+			embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
+
+			embeddedservice_bootstrap.init(
+				'00DgL00000MV1Pl',
+				'Regular_Channel',
+				'https://orgfarm-945d2efc92-dev-ed.develop.my.site.com/ESWRegularChannel1773408733000',
+				{
+					scrt2URL: 'https://orgfarm-945d2efc92-dev-ed.develop.my.salesforce-scrt.com'
+				}
+			);
+		} catch (err) {
+			console.error('Error loading Embedded Messaging: ', err);
+		}
+	};
 </script>
 <script type='text/javascript' src='https://orgfarm-945d2efc92-dev-ed.develop.my.site.com/ESWRegularChannel1773408733000/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
-
+  
 </body>
 </html>
