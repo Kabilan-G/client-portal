@@ -411,30 +411,37 @@
   </footer>
 
 <!-- Salesforce Embedded Chat -->
-<script type='text/javascript'>
-	function initEmbeddedMessaging() {
-		try {
-			embeddedservice_bootstrap.settings.language = 'en_US';
-			embeddedservice_bootstrap.settings.displayHelpButton = true;
-			embeddedservice_bootstrap.settings.displayHelpButtonIfAvailable = false;
-			embeddedservice_bootstrap.settings.defaultMinimizedText = 'Ask Solution Describer';
-			embeddedservice_bootstrap.settings.enabledFeatures = ['LiveAgent'];
 
-			embeddedservice_bootstrap.init(
-				'00DgL00000MV1Pl',
-				'Channel_2',
-				'https://orgfarm-945d2efc92-dev-ed.develop.my.site.com/ESWChannel21773412337505',
-				{
-					scrt2URL: 'https://orgfarm-945d2efc92-dev-ed.develop.my.salesforce-scrt.com'
-				}
-			);
-		} catch (err) {
-			console.error('Error loading Embedded Messaging: ', err);
-		}
-	}
+<script type="text/javascript">
+  (function () {
+    function initESW() {
+      window.embeddedservice_bootstrap.settings = {
+        language: 'en_US',
+        displayHelpButton: true,
+        displayHelpButtonIfAvailable: false,
+        defaultMinimizedText: 'Ask Solution Describer',
+        enabledFeatures: ['LiveAgent']
+      };
+      window.embeddedservice_bootstrap.init(
+        '00DgL00000MV1Pl',
+        'Channel_2',
+        'https://orgfarm-945d2efc92-dev-ed.develop.my.site.com/ESWChannel21773412337505',
+        { scrt2URL: 'https://orgfarm-945d2efc92-dev-ed.develop.my.salesforce-scrt.com' }
+      );
+    }
+
+    if (typeof window.embeddedservice_bootstrap === 'undefined') {
+      const script = document.createElement('script');
+      script.src = 'https://orgfarm-945d2efc92-dev-ed.develop.my.site.com/ESWChannel21773412337505/assets/js/bootstrap.min.js';
+      script.async = true;
+      script.onload = initESW;
+      script.onerror = () => console.error('Bootstrap failed to load');
+      document.head.appendChild(script);
+    } else {
+      initESW();
+    }
+  })();
 </script>
-
-<script type='text/javascript' src='https://orgfarm-945d2efc92-dev-ed.develop.my.site.com/ESWChannel21773412337505/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
 	
 	
 </body>
