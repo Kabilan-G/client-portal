@@ -330,10 +330,19 @@
         <div class="logo-sub">Client Advisory Portal</div>
       </div>
     </div>
-    <div class="header-badge">
-      <div class="badge-dot"></div>
-      Agent Online
-    </div>
+	<div class="header-badge" id="agent-status">
+	  <div class="badge-dot" id="status-dot"></div>
+	  <span id="status-text">Checking...</span>
+	</div>
+	
+	<script>
+	setTimeout(() => {
+	  if (window.embedded_svc) {
+	    document.getElementById('status-text').textContent = 'Agent Online';
+	    document.getElementById('status-dot').style.background = '#22c55e';
+	  }
+	}, 2000);
+	</script>
   </header>
 
   <!-- Hero -->
