@@ -330,10 +330,10 @@
         <div class="logo-sub">Client Advisory Portal</div>
       </div>
     </div>
-	<div class="header-badge" id="agent-status">
-	  <div class="badge-dot" id="status-dot"></div>
-	  <span id="status-text">Checking...</span>
-	</div>
+    <div class="header-badge">
+      <div class="badge-dot"></div>
+      Agent Online
+    </div>
   </header>
 
   <!-- Hero -->
@@ -346,10 +346,10 @@
         close the gaps, and produce a clear value-grouped requirements brief
         ready for your solution architect.
       </p>
-		<button class="hero-cta" onclick="if(window.embedded_svc?.liveAgentAPI) embedded_svc.liveAgentAPI.startChat(); else console.log('embedded_svc not ready');">
-		  Start conversation
-		</button>
-		
+      <button class="hero-cta" onclick="document.querySelector('.embeddedServiceHelpButton button')?.click()">
+        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        Start a conversation
+      </button>
     </div>
 
     <div class="hero-panel">
@@ -410,45 +410,26 @@
     </div>
   </footer>
 
-<!-- Salesforce Embedded Chat -->
-<script type="text/javascript">
-  console.log('Bootstrap loader start');
-  window.embeddedservice_bootstrap = window.embeddedservice_bootstrap || {};
-</script>
-
-<script type="text/javascript">
-  const bootstrapScript = document.createElement('script');
-  bootstrapScript.src = 'https://orgfarm-945d2efc92-dev-ed.develop.my.site.com/ESWChannel21773412337505/assets/js/bootstrap.min.js';
-  bootstrapScript.onload = function() {
-    console.log('Bootstrap loaded - init');
-    embeddedservice_bootstrap.settings = {
-      language: 'en_US',
-      displayHelpButton: true,
-      displayHelpButtonIfAvailable: false,
-      defaultMinimizedText: 'Ask AI'
-    };
-    embeddedservice_bootstrap.init(
-      '00DgL00000MV1Pl',
-      'Channel_2',
-      'https://orgfarm-945d2efc92-dev-ed.develop.my.site.com/ESWChannel21773412337505',
-      { scrt2URL: 'https://orgfarm-945d2efc92-dev-ed.develop.my.salesforce-scrt.com' }
-    );
-    // Status update AFTER init
-    setTimeout(() => {
-      if (window.embedded_svc) {
-        document.getElementById('status-text').textContent = 'Agent Online';
-        document.getElementById('status-dot').style.background = '#22c55e';
-        console.log('embedded_svc ready');
-      } else {
-        console.log('embedded_svc still not ready');
-      }
-    }, 2000);
-  };
-  bootstrapScript.onerror = function() {
-    console.error('Bootstrap load failed');
-  };
-  document.head.appendChild(bootstrapScript);
-</script>
+	<!-- ── Salesforce Embedded Chat ── -->
+	<script type='text/javascript'>
+		function initEmbeddedMessaging() {
+			try {
+				embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
+	
+				embeddedservice_bootstrap.init(
+					'00DgL00000MV1Pl',
+					'Channel_2',
+					'https://orgfarm-945d2efc92-dev-ed.develop.my.site.com/ESWChannel21773412337505',
+					{
+						scrt2URL: 'https://orgfarm-945d2efc92-dev-ed.develop.my.salesforce-scrt.com'
+					}
+				);
+			} catch (err) {
+				console.error('Error loading Embedded Messaging: ', err);
+			}
+		};
+	</script>
+	<script type='text/javascript' src='https://orgfarm-945d2efc92-dev-ed.develop.my.site.com/ESWChannel21773412337505/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
+	
 </body>
 </html>
-
