@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solution Describer — Client Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:       #0f1117;
+      --ink-soft:  #3a3d4a;
+      --ink-muted: #8b8fa8;
+      --cream:     #faf9f6;
+      --warm:      #f4f1eb;
+      --gold:      #c9a84c;
+      --gold-soft: #e8d5a3;
+      --border:    #e2ddd6;
+      --white:     #ffffff;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Grain overlay ── */
+    body::before {
+      content: "";
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Header ── */
+    header {
+      position: relative; z-index: 10;
+      border-bottom: 1px solid var(--border);
+      background: var(--white);
+      padding: 0 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 68px;
+    }
+
+    .logo {
+      display: flex; align-items: center; gap: 14px;
+    }
+
+    .logo-mark {
+      width: 36px; height: 36px;
+      background: var(--ink);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .logo-mark svg { width: 18px; height: 18px; fill: var(--gold); }
+
+    .logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: -0.3px;
+    }
+
+    .logo-sub {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--ink-muted);
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      margin-top: 1px;
+    }
+
+    .header-badge {
+      display: flex; align-items: center; gap: 7px;
+      padding: 6px 14px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--ink-soft);
+    }
+
+    .badge-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 6px #22c55e80;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.5; }
+    }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative; z-index: 1;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 80px 48px 64px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 1.5px;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .hero-eyebrow::before {
+      content: "";
+      display: block;
+      width: 24px; height: 1px;
+      background: var(--gold);
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 42px;
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -1px;
+      color: var(--ink);
+      margin-bottom: 20px;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .hero-desc {
+      font-size: 15px;
+      color: var(--ink-soft);
+      line-height: 1.75;
+      max-width: 420px;
+    }
+
+    .hero-cta {
+      margin-top: 32px;
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 28px;
+      background: var(--ink);
+      color: var(--white);
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+      cursor: pointer;
+      border: none;
+      transition: background 0.2s, transform 0.15s;
+      font-family: inherit;
+    }
+
+    .hero-cta:hover {
+      background: #1e2130;
+      transform: translateY(-1px);
+    }
+
+    .hero-cta svg { width: 16px; height: 16px; fill: var(--gold); }
+
+    /* ── Right panel ── */
+    .hero-panel {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 4px 32px rgba(15,17,23,0.06);
+    }
+
+    .panel-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .step {
+      display: flex; gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .step:last-child { margin-bottom: 0; }
+
+    .step-num {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--warm);
+      border: 1px solid var(--border);
+      font-size: 11px; font-weight: 600;
+      color: var(--ink-soft);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .step-title {
+      font-size: 13px; font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 3px;
+    }
+
+    .step-desc {
+      font-size: 12px;
+      color: var(--ink-muted);
+      line-height: 1.6;
+    }
+
+    /* ── Features strip ── */
+    .features {
+      position: relative; z-index: 1;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 48px 80px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .feature {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      transition: box-shadow 0.2s;
+    }
+
+    .feature:hover {
+      box-shadow: 0 4px 24px rgba(15,17,23,0.07);
+    }
+
+    .feature-icon {
+      width: 40px; height: 40px;
+      background: var(--warm);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      margin-bottom: 14px;
+    }
+
+    .feature-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 14px; font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .feature-desc {
+      font-size: 12px;
+      color: var(--ink-muted);
+      line-height: 1.65;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      position: relative; z-index: 1;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 48px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── Footer ── */
+    footer {
+      position: relative; z-index: 1;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 24px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    .footer-note {
+      font-size: 11px;
+      color: var(--ink-muted);
+    }
+
+    .footer-note a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    .powered {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 11px;
+      color: var(--ink-muted);
+    }
+
+    .powered img {
+      height: 14px; opacity: 0.5;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      header { padding: 0 24px; }
+      .hero  { grid-template-columns: 1fr; padding: 48px 24px 40px; gap: 32px; }
+      .features { grid-template-columns: 1fr; padding: 0 24px 48px; }
+      h1 { font-size: 32px; }
+      footer { padding: 20px 24px; flex-direction: column; gap: 8px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      </div>
+      <div>
+        <div class="logo-text">Solution Describer</div>
+        <div class="logo-sub">Client Advisory Portal</div>
+      </div>
+    </div>
+    <div class="header-badge">
+      <div class="badge-dot"></div>
+      Agent Online
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div>
+      <div class="hero-eyebrow">AI-Powered Advisory</div>
+      <h1>Turn your ideas into a <em>structured</em> solution brief</h1>
+      <p class="hero-desc">
+        Describe what you need — our AI agent will ask the right questions,
+        close the gaps, and produce a clear value-grouped requirements brief
+        ready for your solution architect.
+      </p>
+      <button class="hero-cta" onclick="document.querySelector('.embeddedServiceHelpButton button')?.click()">
+        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        Start a conversation
+      </button>
+    </div>
+
+    <div class="hero-panel">
+      <div class="panel-title">How it works</div>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">Share your requirements</div>
+          <div class="step-desc">Paste text, describe your project, or upload a document summary.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">Answer targeted questions</div>
+          <div class="step-desc">The agent identifies gaps and asks 1–3 focused questions per turn.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">Receive your solution brief</div>
+          <div class="step-desc">A structured, value-grouped brief ready to share with your team.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features">
+    <div class="feature">
+      <div class="feature-icon">🎯</div>
+      <div class="feature-title">Gap Detection</div>
+      <div class="feature-desc">Automatically identifies missing objectives, metrics, and system details before they become problems.</div>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">📋</div>
+      <div class="feature-title">Value-Grouped Brief</div>
+      <div class="feature-desc">Requirements organised by business process — not just a list, but a structured brief with tech notes.</div>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🤝</div>
+      <div class="feature-title">Human Escalation</div>
+      <div class="feature-desc">Seamlessly hands off to a solution architect when deeper technical expertise is needed.</div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-note">
+      Anonymous session — no login required.
+      <a href="#">Privacy Policy</a>
+    </div>
+    <div class="powered">
+      Powered by Agentforce
+    </div>
+  </footer>
+
+  <!-- ── Salesforce Embedded Chat ── -->
+  <script type='text/javascript'>
+    function initEmbeddedMessaging() {
+      try {
+        embeddedservice_bootstrap.settings.language = 'en_US';
+        embeddedservice_bootstrap.init(
+          '00DgL00000MV1Pl',
+          'Client_Portal_Chat',
+          'https://orgfarm-945d2efc92-dev-ed.develop.my.site.com/ESWClientPortalChat1773401603679',
+          {
+            scrt2URL: 'https://orgfarm-945d2efc92-dev-ed.develop.my.salesforce-scrt.com'
+          }
+        );
+      } catch (err) {
+        console.error('Error loading Embedded Messaging: ', err);
+      }
+    }
+  </script>
+  <script
+    type='text/javascript'
+    src='https://orgfarm-945d2efc92-dev-ed.develop.my.site.com/ESWClientPortalChat1773401603679/assets/js/bootstrap.min.js'
+    onload='initEmbeddedMessaging()'>
+  </script>
+
+</body>
+</html>
