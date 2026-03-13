@@ -334,15 +334,6 @@
 	  <div class="badge-dot" id="status-dot"></div>
 	  <span id="status-text">Checking...</span>
 	</div>
-	
-	<script>
-	setTimeout(() => {
-	  if (window.embedded_svc) {
-	    document.getElementById('status-text').textContent = 'Agent Online';
-	    document.getElementById('status-dot').style.background = '#22c55e';
-	  }
-	}, 2000);
-	</script>
   </header>
 
   <!-- Hero -->
@@ -420,38 +411,44 @@
   </footer>
 
 <!-- Salesforce Embedded Chat -->
+<script type="text/javascript">
+  console.log('Bootstrap loader start');
+  window.embeddedservice_bootstrap = window.embeddedservice_bootstrap || {};
+</script>
 
 <script type="text/javascript">
-  (function () {
-    function initESW() {
-      window.embeddedservice_bootstrap.settings = {
-        language: 'en_US',
-        displayHelpButton: true,
-        displayHelpButtonIfAvailable: false,
-        defaultMinimizedText: 'Ask Solution Describer',
-        enabledFeatures: ['LiveAgent']
-      };
-      window.embeddedservice_bootstrap.init(
-        '00DgL00000MV1Pl',
-        'Channel_2',
-        'https://orgfarm-945d2efc92-dev-ed.develop.my.site.com/ESWChannel21773412337505',
-        { scrt2URL: 'https://orgfarm-945d2efc92-dev-ed.develop.my.salesforce-scrt.com' }
-      );
-    }
-
-    if (typeof window.embeddedservice_bootstrap === 'undefined') {
-      const script = document.createElement('script');
-      script.src = 'https://orgfarm-945d2efc92-dev-ed.develop.my.site.com/ESWChannel21773412337505/assets/js/bootstrap.min.js';
-      script.async = true;
-      script.onload = initESW;
-      script.onerror = () => console.error('Bootstrap failed to load');
-      document.head.appendChild(script);
-    } else {
-      initESW();
-    }
-  })();
+  const bootstrapScript = document.createElement('script');
+  bootstrapScript.src = 'https://orgfarm-945d2efc92-dev-ed.develop.my.site.com/ESWChannel21773412337505/assets/js/bootstrap.min.js';
+  bootstrapScript.onload = function() {
+    console.log('Bootstrap loaded - init');
+    embeddedservice_bootstrap.settings = {
+      language: 'en_US',
+      displayHelpButton: true,
+      displayHelpButtonIfAvailable: false,
+      defaultMinimizedText: 'Ask AI'
+    };
+    embeddedservice_bootstrap.init(
+      '00DgL00000MV1Pl',
+      'Channel_2',
+      'https://orgfarm-945d2efc92-dev-ed.develop.my.site.com/ESWChannel21773412337505',
+      { scrt2URL: 'https://orgfarm-945d2efc92-dev-ed.develop.my.salesforce-scrt.com' }
+    );
+    // Status update AFTER init
+    setTimeout(() => {
+      if (window.embedded_svc) {
+        document.getElementById('status-text').textContent = 'Agent Online';
+        document.getElementById('status-dot').style.background = '#22c55e';
+        console.log('embedded_svc ready');
+      } else {
+        console.log('embedded_svc still not ready');
+      }
+    }, 2000);
+  };
+  bootstrapScript.onerror = function() {
+    console.error('Bootstrap load failed');
+  };
+  document.head.appendChild(bootstrapScript);
 </script>
-	
-	
 </body>
 </html>
+
