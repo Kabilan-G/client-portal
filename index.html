@@ -346,10 +346,10 @@
         close the gaps, and produce a clear value-grouped requirements brief
         ready for your solution architect.
       </p>
-      <button class="hero-cta" onclick="document.querySelector('.embeddedServiceHelpButton button')?.click()">
-        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-        Start a conversation
-      </button>
+		<button class="hero-cta" onclick="if(window.embedded_svc?.liveAgentAPI) embedded_svc.liveAgentAPI.startChat(); else console.log('embedded_svc not ready');">
+		  Start conversation
+		</button>
+		
     </div>
 
     <div class="hero-panel">
@@ -414,7 +414,11 @@
 <script type='text/javascript'>
 	function initEmbeddedMessaging() {
 		try {
-			embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
+			embeddedservice_bootstrap.settings.language = 'en_US';
+			embeddedservice_bootstrap.settings.displayHelpButton = true;
+			embeddedservice_bootstrap.settings.displayHelpButtonIfAvailable = false;
+			embeddedservice_bootstrap.settings.defaultMinimizedText = 'Ask Solution Describer';
+			embeddedservice_bootstrap.settings.enabledFeatures = ['LiveAgent'];
 
 			embeddedservice_bootstrap.init(
 				'00DgL00000MV1Pl',
@@ -427,9 +431,11 @@
 		} catch (err) {
 			console.error('Error loading Embedded Messaging: ', err);
 		}
-	};
+	}
 </script>
+
 <script type='text/javascript' src='https://orgfarm-945d2efc92-dev-ed.develop.my.site.com/ESWChannel21773412337505/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
-  
+	
+	
 </body>
 </html>
